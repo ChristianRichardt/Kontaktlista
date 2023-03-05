@@ -19,10 +19,15 @@ class File {
 
         var i = 0
 
+
+
         // Loopar igenom antal directories som finns i foldern "Telefonbok".
-        while (i < listOf(telefonbok).size + 1) {
-            val child = "Telefonbok\\" + i.toString() + ".txt" // Skaffar sista delen av directorien för första kontakten
+        while (i < listOf(telefonbok).size) {
+            var primeKey = folder.listFiles().size // Primärnyckel
+
+            val child = "Telefonbok\\$primeKey.txt" // Skaffar sista delen av directories för första kontakten
             val newFile = File(currentDirectory, child) // Kombinera sistan delan och den origenalla directoryn
+
             val kontakt = telefonbok.listKontakt[i].firstName + ", " + telefonbok.listKontakt[i].lastName + ", " + telefonbok.listKontakt[i].number + ", " + telefonbok.listKontakt[i].email // Skapar string med all kontakt information
             newFile.writeText(kontakt) // Skriver in kontakten med fil namnet samma som nuvarande indexen
 
