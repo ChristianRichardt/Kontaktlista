@@ -8,10 +8,16 @@ class Telefonbok (var listKontakt: List<Kontakt>){
         val kontakt = Kontakt(inputFirstName(),inputLastName(),inputNumber(),inputEmail())
 
         val file = File()
+        val telefonbok = file.readFiles()
         val listKontakt: List<Kontakt> = listOf(kontakt)
-        val telefonbok = Telefonbok(listKontakt)
 
-        file.writeFiles(telefonbok)
+
+        if (telefonbok != null)
+        {
+            file.writeFiles(telefonbok)
+        }
+
+
     }
 
     fun inputFirstName(): String?
@@ -83,21 +89,29 @@ class Telefonbok (var listKontakt: List<Kontakt>){
             JFile(file.absolutePath).delete()
         }
 
-        renameRemainingContacts()
+        renameRemainingContacts(contactId)
     }
 
-    fun renameRemainingContacts() {
+    fun renameRemainingContacts(contactID:String) {
+
         val folderPath = "Telefonbok\\"
         val folder = JFile(folderPath)
 
         val files = folder.listFiles()
 
+        var index = 0;
+
         for (file in files) {
-            val currentName = file.nameWithoutExtension
-            val currentNumber = currentName.toInt()
-            val newName = (currentNumber - 1).toString() + "." + file.extension
-            val newFile = JFile(folder, newName)
-            file.renameTo(newFile)
+            if (index > contactID.toInt()) {
+
+
+                val currentName = file.nameWithoutExtension
+                val currentNumber = currentName.toInt()
+                val newName = (currentNumber - 1).toString() + "." + file.extension
+                val newFile = JFile(folder, newName)
+                file.renameTo(newFile)
+            }
+            index++
         }
     }
 
